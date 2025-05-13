@@ -21,17 +21,44 @@ let handleLogin = async(req, res) => {
     })
 }
 
-let handleGetAllUsers = async (req, res) => {
-    let id = req.body.id; //ALL, id
-    let users = await userService.getAllUsers(id);
-    console.log(users);
+// let handleGetAllUsers = async (req, res) => {
+//     let id = req.query.id; //ALL, id
+
+//     if (!id) {
+//         return res.status(200).json({
+//             errCode: 1,
+//             errMessage: 'Missing required parameter',
+//             users: []
+//         })
+//     }
+//     let users = await userService.getAllUsers(id);
+//     console.log(users);
     
+//     return res.status(200).json({
+//         errCode: 0,
+//         errMessage: 'OK',
+//         users
+//     })
+// }
+
+let handleGetAllUsers = async (req, res) => {
+    // console.log('Received query params:', req.query); // Thêm dòng này
+    let id = req.query.id;
+    if (!id) {
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: 'Missing required parameter',
+            users: []
+        });
+    }
+    let users = await userService.getAllUsers(id);
+    console.log('Users fetched:', users);
     return res.status(200).json({
         errCode: 0,
         errMessage: 'OK',
         users
-    })
-}
+    });
+};
 
 module.exports = {
     handleLogin: handleLogin,

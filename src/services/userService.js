@@ -65,31 +65,57 @@ let checkUserEmail = (userEmail) => {
     });
 }
 
+// let getAllUsers = (userId) => {
+//     return new Promise(async (resolve, reject) => {
+//         try {
+//             let users = '';
+//             if (userId === 'ALL') {
+//                 users = await db.User.findAll({
+//                     attributes: {
+//                         exclude: ['password']
+//                     }
+//                 })
+//             } 
+//             if (userId && userId !== 'All') {
+//                 users = await db.User.findOne({
+//                     where: { id: userId },
+//                     attributes: {
+//                         exclude: ['password']
+//                     }
+//                 })    
+//             }
+//             resolve(users)
+//         } catch (e) {
+//             reject(e);
+//         }
+//     })
+// }
+
 let getAllUsers = (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let users = '';
+            let users = [];
             if (userId === 'ALL') {
                 users = await db.User.findAll({
                     attributes: {
                         exclude: ['password']
                     }
-                })
-            } 
-            if (userId && userId !== 'All') {
-                users = await db.User.findOne({
+                });
+            } else if (userId) {
+                const user = await db.User.findOne({
                     where: { id: userId },
                     attributes: {
                         exclude: ['password']
                     }
-                })    
+                });
+                users = user ? [user] : []; // Nếu không tìm thấy user, trả về mảng rỗng
             }
-            resolve(users)
+            resolve(users);
         } catch (e) {
             reject(e);
         }
-    })
-}
+    });
+};
 
 module.exports = {
     handleUserLogin: handleUserLogin,
