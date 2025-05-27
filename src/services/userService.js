@@ -149,7 +149,8 @@ let createNewUser = (data) => {
                 phonenumber: data.phonenumber,
                 gender: data.gender,
                 roleId: data.role,
-                positionId: data.positionId
+                positionId: data.positionId,
+                image: data.avatar
             })
 
             resolve({
@@ -162,6 +163,7 @@ let createNewUser = (data) => {
             }
     })
 };
+
 
 let deleteUser = (userId) => {
   return new Promise(async (resolve, reject) => {
@@ -210,7 +212,9 @@ let updateUserData = (data) => {
         user.positionId = data.positionId;
         user.gender = data.gender;
         user.phonenumber = data.phonenumber;
-
+        if(data.avatar) {
+            user.image = data.avatar;
+        }
         await user.save();
 
         resolve({
